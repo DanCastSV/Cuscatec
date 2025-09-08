@@ -1,0 +1,29 @@
+# Entorno virtual
+venv/
+.venv/
+env/
+ENV/
+
+# Archivos de entorno (variables de entorno)
+.env
+.env.*
+
+# Archivos de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Base de datos de desarrollo
+db.sqlite3
+
+# Archivos estáticos y multimedia generados
+/media/
+/staticfiles/
+
+# Configuración de IDEs
+.vscode/
+.idea/
+
+# Archivos temporales y logs
+*.log
+*.pot
