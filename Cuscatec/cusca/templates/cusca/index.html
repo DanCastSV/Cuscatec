@@ -1,10 +1,29 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Cuscatec</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CUSCATEC - Bienvenida</title>
+    <!-- Enlace al CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <h1>Cuscatec en creación</h1>
+    <div class="container">
+        <img src="{% static 'images/logo.png' %}" alt="Logo CUSCATEC" class="logo">
+        <h1>Bienvenido a CUSCATEC</h1>
+        <p>Página en desarrollo 🚧</p>
+
+        <div class="search-box">
+            <input type="text" placeholder="Buscar... (ya funciona)">
+            <button>🔍</button>
+        </div>
+
+        <a href=# class="login-btn">Ir al Login</a>
+
+        <div class="futuro">
+            <p>✨ Aquí se agregarán más funciones a futuro...</p>
+        </div>
+    </div>
 </body>
 </html>
