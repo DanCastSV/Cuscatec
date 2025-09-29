@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Registrate</h1>
+        <form method="post" class="register-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="username">Nombre de usuario <span class="required"></span></label>
+                <input type="text" id="username" name="username" placeholder="Ingresa tu nombre de usuario" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email <span class="required"></span></label>
+                <input type="email" id="email" name="email" placeholder="Ingresa tu email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Contraseña <span class="required"></span></label>
+                <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm_password">Confirmar Contraseña <span class="required"></span></label>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Repite tu contraseña" required>
+            </div>
+
+            <button type="submit" class="btn-submit">Registrarse</button>
+        </form>
+
+        <p class="redirect-text">
+            ¿Ya tienes una cuenta?
+            <a href="{% url 'login' %}">Inicia sesión aquí</a>
+        </p>
+    </div>
+</body>
+</html>

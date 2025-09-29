@@ -9,3 +9,9 @@ def index(request):
 
 
 # Create your views here.
+def login(request): 
+     return render(request, "cusca/login.html")  # ruta dentro de templates/cusca
+
+# Create your views here.
+def register(request):
+    return render(request, "cusca/register.html")  # ruta dentro de templates/cusca
