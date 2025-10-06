@@ -101,3 +101,18 @@ p {
     border-color: #2d89a0;
     outline: none;
 }
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background-color: #2d89a0;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+    background-color: #1c3b6d;
+}
