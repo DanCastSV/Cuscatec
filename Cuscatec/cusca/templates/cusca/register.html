@@ -12,41 +12,53 @@
         <h1>Regístrate</h1>
         <form method="post" class="register-form" id="registerForm">
             {% csrf_token %}
-            
+
             <div class="form-group">
-                <label for="username">Nombre completo <span class="required"></span></label>
-                <input type="text" id="username" name="username" placeholder="Ingresa tu nombre completo" required>
+                <label for="id_username">Nombre completo <span class="required"></span></label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <div class="error">{{ form.username.errors.0 }}</div>
+                {% endif %}
             </div>
 
             <div class="form-group">
-                <label for="email">Correo estudiantil <span class="required"></span></label>
-                <input type="email" id="email" name="email" placeholder="Ingresa tu correo estudiantil" required>
+                <label for="id_email">Correo estudiantil <span class="required"></span></label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <div class="error">{{ form.email.errors.0 }}</div>
+                {% endif %}
             </div>
 
             <div class="form-group">
-                <label for="codigo">Código de estudiante <span class="required"></span></label>
-                <input type="text" id="codigo" name="codigo" placeholder="Ingresa tu código de estudiante" required>
+                <label for="id_codigo">Código de estudiante <span class="required"></span></label>
+                {{ form.codigo }}
+                {% if form.codigo.errors %}
+                    <div class="error">{{ form.codigo.errors.0 }}</div>
+                {% endif %}
             </div>
 
             <div class="form-group">
-                <label for="telefono">Número telefónico (con código de área) <span class="required"></span></label>
-                <input 
-                    type="tel" 
-                    id="telefono" 
-                    name="telefono" 
-                    placeholder="+503 1234 5678" 
-                    pattern="^\+\d{1,3}\s\d{4}\s\d{4}$" 
-                    required>
+                <label for="id_telefono">Número telefónico (con código de área) <span class="required"></span></label>
+                {{ form.telefono }}
+                {% if form.telefono.errors %}
+                    <div class="error">{{ form.telefono.errors.0 }}</div>
+                {% endif %}
             </div>
 
             <div class="form-group">
-                <label for="password">Contraseña <span class="required"></span></label>
-                <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña" required>
+                <label for="id_password">Contraseña <span class="required"></span></label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <div class="error">{{ form.password.errors.0 }}</div>
+                {% endif %}
             </div>
 
             <div class="form-group">
-                <label for="confirm_password">Confirmar Contraseña <span class="required"></span></label>
-                <input type="password" id="confirm_password" name="confirm_password" placeholder="Repite tu contraseña" required>
+                <label for="id_confirm_password">Confirmar Contraseña <span class="required"></span></label>
+                {{ form.confirm_password }}
+                {% if form.confirm_password.errors %}
+                    <div class="error">{{ form.confirm_password.errors.0 }}</div>
+                {% endif %}
             </div>
 
             <button id="register-button" type="submit" class="btn-submit">Registrarse</button>
@@ -57,24 +69,5 @@
             <a href="{% url 'login' %}">Inicia sesión aquí</a>
         </p>
     </div>
-
-    <!-- <script>
-        // Validación opcional de contraseñas en frontend
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            const pass = document.getElementById('password').value;
-            const confirm = document.getElementById('confirm_password').value;
-
-            if (pass !== confirm) {
-                e.preventDefault();
-                alert("Las contraseñas no coinciden.");
-            } else {
-                // Si las contraseñas coinciden, el formulario se enviará.
-                // Django se encargará de la redirección después de un registro exitoso.
-                // Si aún quieres forzar la redirección desde el frontend (no recomendado con Django):
-                // e.preventDefault(); 
-                // window.location.href = "{% url 'login' %}";
-            }
-        });
-    </script> -->
 </body>
 </html>
