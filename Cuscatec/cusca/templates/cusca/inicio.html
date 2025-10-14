@@ -39,6 +39,20 @@
             color: #2d6a4f;
             margin-bottom: 1rem;
         }
+        .logout-btn {
+            background: #2d6a4f;
+            color: #fff;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+            transition: background 0.2s;
+        }
+        .logout-btn:hover {
+            background: #1b4332;
+        }
         footer {
             background: #22223b;
             color: #fff;
@@ -54,6 +68,10 @@
     <main>
         {% if user.is_authenticated %}
             <div class="bienvenido">¡Bienvenido, {{ user.username }}!</div> <!-- No lo toques-->
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">Cerrar sesión</button>  <!-- Botón de cerrar sesión, colocalo en una navbar-->
+            </form><!-- Create una navbar estilo base para todas las plantillas, buscate un tutorial o en google.com-->
         {% endif %}
         <p>Esta es la página de inicio de tu sitio web.</p>
     </main>

@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import PerfilUsuario
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 
 
 def index(request):
@@ -43,8 +43,6 @@ def register(request):
 
             if password != confirm_password:
                 messages.error(request, "Las contraseñas no coinciden.")
-            elif User.objects.filter(username=username).exists():
-                messages.error(request, "El nombre de usuario ya existe.")
             elif User.objects.filter(email=email).exists():
                 messages.error(request, "El correo ya está registrado.")
             else:
@@ -55,6 +53,10 @@ def register(request):
     else:
         form = RegistroForm()
     return render(request, "cusca/register.html", {"form": form})  # ruta dentro de templates/cusca
+
+def logout(request):
+    auth_logout(request)
+    return redirect('login')
 
 def inicio(request):
     return render(request, "cusca/inicio.html")  # ruta dentro de templates/cusca
