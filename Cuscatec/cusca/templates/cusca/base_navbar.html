@@ -1,0 +1,68 @@
+{% load static %}
+<!--
+  base_navbar.html
+  - Barra de navegación reutilizable creada para el proyecto Cuscatec.
+  - Contiene: logo, nombre de la app, botón de usuario con menú desplegable y opción de logout.
+  - logout() envía un formulario oculto (POST) a la vista `logout` para cumplir CSRF.
+  - Estilos inline aquí para simplicidad en el POC; pueden moverse a `static/css/style.css`.
+-->
+<nav class="ct-navbar" role="navigation" aria-label="Barra principal">
+  <div class="ct-container">
+    <div class="brand">
+      <a href="/" class="brand-link">
+        <img src="{% static 'images/logo.png' %}" alt="Cuscatec" class="brand-logo" />
+        <span class="brand-name">Cuscatec</span>
+      </a>
+    </div>
+
+    <div class="user-area">
+      <button id="user-btn" class="user-btn" aria-haspopup="true" aria-expanded="false">
+        {{ user.get_full_name|default:user.username }}
+        <span class="caret">▾</span>
+      </button>
+
+      <div id="user-menu" class="user-menu" role="menu" aria-hidden="true">
+        <a href="#" role="menuitem">Perfil</a>
+        <a href="#" role="menuitem">Configuración</a>
+        <div class="separator" role="separator"></div>
+        <button type="button" class="menu-item logout-item" onclick="logout()">Cerrar sesión</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Formulario oculto para enviar logout vía POST (incluye CSRF). La función logout() lo submitará. -->
+<form id="logout-form" action="{% url 'logout' %}" method="post" style="display:none;">
+  {% csrf_token %}
+</form>
+
+<style>
+  .ct-navbar { position: fixed; top:0; left:0; right:0; background:#1f6e5c; color:#fff; z-index:1000; box-shadow:0 1px 6px rgba(0,0,0,0.08);} 
+  .ct-container { max-width:1100px; margin:0 auto; padding:0.85rem 1.25rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+  .brand-link { display:flex; align-items:center; gap:.6rem; color:inherit; text-decoration:none; }
+  .brand-logo { height:40px; width:auto; display:inline-block; }
+  .brand-name { font-weight:700; font-size:1.15rem; }
+  .user-area { position:relative; }
+  .user-btn { background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.12); padding:0.55rem 0.85rem; border-radius:8px; cursor:pointer; font-size:1rem; display:flex; align-items:center; gap:.5rem; }
+  .user-menu { position:absolute; right:0; margin-top:0.6rem; background:#fff; color:#111; min-width:170px; border-radius:8px; box-shadow:0 8px 24px rgba(15,23,42,0.12); overflow:hidden; transform-origin:top right; display:none; }
+  .user-menu a, .user-menu .menu-item { display:block; padding:.6rem .9rem; text-decoration:none; color:inherit; border:none; width:100%; text-align:left; background:transparent; cursor:pointer; font-size:.95rem; }
+  .user-menu a:hover, .user-menu .menu-item:hover { background:#f3f4f6; }
+  .separator { height:1px; background:#e6e6e6; margin:.35rem 0; }
+  .user-menu.show { display:block; }
+  @media (max-width:560px) { .brand-name{display:none;} .ct-container{padding:.5rem .75rem;} .user-btn{padding:.4rem .5rem; font-size:.9rem;} }
+</style>
+
+<script>
+  (function(){
+    const userBtn = document.getElementById('user-btn');
+    const userMenu = document.getElementById('user-menu');
+    function closeMenu(){ userMenu.classList.remove('show'); userBtn.setAttribute('aria-expanded','false'); userMenu.setAttribute('aria-hidden','true'); }
+    function openMenu(){ userMenu.classList.add('show'); userBtn.setAttribute('aria-expanded','true'); userMenu.setAttribute('aria-hidden','false'); }
+    userBtn && userBtn.addEventListener('click', function(e){ e.stopPropagation(); if(userMenu.classList.contains('show')) closeMenu(); else openMenu(); });
+    document.addEventListener('click', function(e){ if(!userMenu.contains(e.target) && !userBtn.contains(e.target)) closeMenu(); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeMenu(); });
+    window.logout = function(){ const f=document.getElementById('logout-form'); if(f) f.submit(); else window.location.href = "{% url 'logout' %}"; };
+  })();
+</script>
+
+<!-- Nota: agrega padding-top en el body del base.html para compensar la navbar fija. -->

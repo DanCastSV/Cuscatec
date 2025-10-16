@@ -1,82 +1,18 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Inicio - Cuscatec</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f8f9fa;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        header {
-            background: #2d6a4f;
-            color: #fff;
-            padding: 1.5rem 0;
-            text-align: center;
-        }
-        main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        h1 {
-            margin-bottom: 0.5rem;
-        }
-        p {
-            color: #333;
-            font-size: 1.2rem;
-        }
-        .bienvenido {
-            font-size: 1.5rem;
-            color: #2d6a4f;
-            margin-bottom: 1rem;
-        }
-        .logout-btn {
-            background: #2d6a4f;
-            color: #fff;
-            border: none;
-            padding: 0.7rem 1.5rem;
-            border-radius: 5px;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-bottom: 1.5rem;
-            transition: background 0.2s;
-        }
-        .logout-btn:hover {
-            background: #1b4332;
-        }
-        footer {
-            background: #22223b;
-            color: #fff;
-            text-align: center;
-            padding: 1rem 0;
-        }
-    </style> 
-</head>
-<body>
-    <header>
-        <h1>Bienvenido a Cuscatec</h1>
-    </header>
-    <main>
-        {% if user.is_authenticated %}
-            <div class="bienvenido">¡Bienvenido, {{ user.username }}!</div> <!-- No lo toques-->
-            <form action="{% url 'logout' %}" method="post">
-                {% csrf_token %}
-                <button type="submit" class="logout-btn">Cerrar sesión</button>  <!-- Botón de cerrar sesión, colocalo en una navbar-->
-            </form><!-- Create una navbar estilo base para todas las plantillas, buscate un tutorial o en google.com-->
-        {% endif %}
-        <p>Esta es la página de inicio de tu sitio web.</p>
-    </main>
-    <footer>
-        &copy; 2025 Cuscatec
-    </footer>
-</body>
-</html>
+{% extends 'cusca/base.html' %}
+
+{% block title %}Inicio - Cuscatec{% endblock %}
+
+{% block content %}
+  <!--
+    inicio.html
+    - Contenido reducido: esta plantilla ahora extiende `cusca/base.html`.
+    - La sección central es sencilla y está centrada (text-align:center).
+    - El saludo del usuario se mantiene con el comentario original "No lo toques".
+  -->
+  <section style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;">
+    {% if user.is_authenticated %}
+      <div class="bienvenido">¡Bienvenido, {{ user.username }}!</div> <!-- No lo toques-->
+    {% endif %}
+    <p>Esta es la página de inicio de tu sitio web Cuscatec.</p>
+  </section>
+{% endblock %}
