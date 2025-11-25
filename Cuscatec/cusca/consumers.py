@@ -5,9 +5,13 @@ from channels.db import database_sync_to_async
 from .models import PerfilUsuario
 from django.contrib.auth.models import User
 import google.generativeai as genai
+import os
+from dotenv import load_dotenv
 
-# API key de Google Gemini (gratuita)
-genai.configure(api_key='AIzaSyAqbdEYGddxvsyPpOjEKojUWDQwtXOUxwM')
+# cargar .env y configurar la API
+load_dotenv()  # busca .env en la raíz del proyecto
+GENAI_API_KEY = os.getenv('GENAI_API_KEY')
+genai.configure(api_key=GENAI_API_KEY)
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):

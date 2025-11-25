@@ -5,25 +5,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CUSCATEC - Bienvenida</title>
-    <!-- Enlace al CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <div class="container">
-        <img src="{% static 'images/logo.png' %}" alt="Logo CUSCATEC" class="logo">
-        <h1>Bienvenido a CUSCATEC</h1>
-        <p>Página en desarrollo 🚧</p>
+    <main class="wrap">
 
-        <div class="search-box">
-            <input type="text" placeholder="Buscar... (ya funciona)">
-            <button>🔍</button>
+        <div class="logo-wrap">
+            <img src="{% static 'images/logo.png' %}" alt="Logo Cuscatec" class="logo">
         </div>
 
-        <a href="{% url 'login' %}" class="login-btn">Ir al Login</a>
+        <h1 class="title">🌟 Bienvenidos a Cuscatec</h1>
+        <p class="subtitle">La plataforma que impulsa tu aprendizaje</p>
 
-        <div class="futuro">
-            <p>✨ Aquí se agregarán más funciones a futuro...</p>
+        <p class="lead">
+            Cuscatec es un espacio digital diseñado especialmente para acompañarte en tu camino académico. 
+            Aquí encontrarás todo lo que necesitás para organizar tus clases, interactuar con tus docentes y compañeros, 
+            y acceder a herramientas que harán tu proceso de aprendizaje más dinámico, práctico y entretenido.
+        </p>
+
+        <section class="features">
+            <div class="feature">
+                <strong>💬 Asistente Inteligente</strong><br>
+                Tu propio chat con IA siempre disponible para responder preguntas y ayudarte en tus tareas.
+            </div>
+
+            <div class="feature">
+                <strong>📚 Materiales Didácticos</strong><br>
+                Accede a guías, presentaciones, videos y ejercicios organizados por clase y tema.
+            </div>
+
+            <div class="feature">
+                <strong>📝 Foros Académicos</strong><br>
+                Participa en discusiones, comparte ideas y resuelve dudas con tu comunidad educativa.
+            </div>
+        </section>
+
+        <div class="actions">
+            <a href="{% url 'login' %}" class="btn btn-primary">Iniciar sesión</a>
+            <a href="{% url 'register' %}" class="btn btn-outline">Registrarse</a>
         </div>
-    </div>
+
+        <footer class="note">
+            🎓 Todo lo que necesitás, en un solo lugar — controla tus clases, explora recursos y mantén tu aprendizaje al día.
+        </footer>
+
+    </main>
 </body>
 </html>

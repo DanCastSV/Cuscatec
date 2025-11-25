@@ -6,6 +6,7 @@ from django.contrib import messages
 from .models import PerfilUsuario
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.db import IntegrityError
+from django.contrib.auth.decorators import login_required  # agregado
 
 
 def index(request):
@@ -73,13 +74,16 @@ def register(request):
     return render(request, "cusca/register.html", {"form": form})  # ruta dentro de templates/cusca
 
 
+@login_required(login_url='login')
 def logout(request):
     auth_logout(request)
     return redirect('login')
 
 
+@login_required(login_url='login')
 def inicio(request):
     return render(request, "cusca/inicio.html")  # ruta dentro de templates/cusca
 
+@login_required(login_url='login')
 def chat(request):
     return render(request, "cusca/chat.html")
