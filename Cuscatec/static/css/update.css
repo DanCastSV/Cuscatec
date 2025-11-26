@@ -1,0 +1,95 @@
+/* --------- Estilos generales --------- */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f6fa;
+}
+
+/* --------- Contenedor principal --------- */
+.container {
+    max-width: 550px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.container h1 {
+    text-align: center;
+    color: #1c22d2;
+    margin-bottom: 25px;
+}
+
+/* --------- Mensajes --------- */
+ul {
+    background: #ffe2e2;
+    border-left: 4px solid #e60000;
+    padding: 12px 18px;
+    border-radius: 6px;
+    list-style: none;
+    margin-bottom: 25px;
+}
+
+ul li {
+    color: #990000;
+}
+
+/* --------- Formulario --------- */
+form div {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    color: #333;
+}
+
+input[type="text"],
+input[type="file"],
+select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #fafafa;
+    transition: 0.2s;
+}
+
+input:focus,
+select:focus {
+    border-color: #1c22d2;
+    box-shadow: 0 0 4px rgba(28,34,210,0.3);
+    outline: none;
+}
+
+/* --------- Botones --------- */
+button {
+    padding: 12px 20px;
+    border: none;
+    background: #1c22d2;
+    color: white;
+    font-size: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #141ab0;
+}
+
+/* Botón de volver */
+a {
+    margin-left: 15px;
+    color: #1c22d2;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+a:hover {
+    text-decoration: underline;
+}

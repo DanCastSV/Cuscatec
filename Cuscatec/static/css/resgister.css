@@ -1,0 +1,136 @@
+/* --- Reset general --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* --- Fondo corporativo --- */
+body {
+    background: #f5f7fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* --- Contenedor principal --- */
+.container {
+    background: #ffffff;
+    width: 100%;
+    max-width: 480px;
+    padding: 40px 45px;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border-top: 4px solid #0b3d91;
+    margin: 20px;
+}
+
+/* --- Títulos --- */
+h1 {
+    color: #0b3d91;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+/* --- Formulario de registro --- */
+.register-form .form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 15px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* --- Inputs corporativos --- */
+.register-form input,
+.register-form select {
+    width: 100%;
+    padding: 11px 12px;
+    margin-top: 6px;
+    border: 1px solid #cdd4e0;
+    border-radius: 6px;
+    background: #f8f9fb;
+    font-size: 15px;
+    transition: all 0.25s ease;
+}
+
+.register-form input:focus,
+.register-form select:focus {
+    border-color: #0f52ba;
+    background: #fff;
+    box-shadow: 0 0 6px rgba(15, 82, 186, 0.3);
+    outline: none;
+}
+
+/* --- Botón principal --- */
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background: #0f52ba;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    margin-top: 10px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.btn-submit:hover {
+    background: #0b3d91;
+}
+
+/* --- Estilo de errores Django --- */
+.error {
+    background: rgba(235, 87, 87, 0.15);
+    color: #c0392b;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    margin-top: 8px;
+    border-left: 4px solid #c0392b;
+}
+
+.errorlist {
+    color: #c0392b !important;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+/* --- Campos ocultos dinámicos de bachillerato --- */
+.hidden {
+    display: none !important;
+}
+
+/* --- Texto de redirección --- */
+.redirect-text {
+    margin-top: 22px;
+    text-align: center;
+    color: #555;
+    font-size: 14px;
+}
+
+.redirect-text a {
+    color: #0f52ba;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.redirect-text a:hover {
+    text-decoration: underline;
+}
+
+/* --- Responsive --- */
+@media (max-width: 480px) {
+    .container {
+        padding: 30px;
+    }
+}

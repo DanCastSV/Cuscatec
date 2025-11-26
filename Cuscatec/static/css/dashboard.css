@@ -1,0 +1,156 @@
+/* ------------------------------
+   Reset general
+------------------------------ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* ------------------------------
+   Fondo general
+------------------------------ */
+body {
+    background: #f0f3f8;
+    min-height: 100vh;
+}
+
+/* ------------------------------
+   HEADER CORPORATIVO
+------------------------------ */
+header {
+    width: 100%;
+    background: #0b3d91;
+    color: #fff;
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+header img {
+    height: 56px;
+}
+
+header h1 {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+/* ------------------------------
+   CONTENIDO PRINCIPAL
+------------------------------ */
+main {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+main p {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+/* ------------------------------
+   LISTA DE ENLACES
+------------------------------ */
+main ul {
+    list-style: none;
+    margin-bottom: 40px;
+}
+
+main ul li {
+    margin-bottom: 10px;
+}
+
+main ul li a {
+    color: #0f52ba;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+main ul li a:hover {
+    text-decoration: underline;
+}
+
+/* ------------------------------
+   TITULO PANEL
+------------------------------ */
+.dashboard-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #0b3d91;
+    margin: 20px 0 30px;
+}
+
+/* ------------------------------
+   CARDS CONTAINER
+------------------------------ */
+.card-container {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+/* ------------------------------
+   TARJETAS CORPORATIVAS
+------------------------------ */
+.card {
+    background: #ffffff;
+    width: 290px;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    border-top: 4px solid #0b3d91;
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+}
+
+.card h3 {
+    font-size: 20px;
+    color: #0b3d91;
+    margin-bottom: 12px;
+    font-weight: bold;
+}
+
+.card p {
+    color: #444;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.card a {
+    display: inline-block;
+    padding: 10px 16px;
+    background: #0f52ba;
+    color: white;
+    font-weight: bold;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.card a:hover {
+    background: #0b3d91;
+}
+
+/* ------------------------------
+   RESPONSIVE
+------------------------------ */
+@media (max-width: 760px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+}

@@ -1,0 +1,45 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Cuscatec{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>
+    /*
+      base.html
+      - Plantilla base para todas las vistas de la app `cusca`.
+      - Incluye `base_navbar.html` (barra superior fija) y define bloques reutilizables:
+        `title`, `head`, `content`, `scripts`.
+      - Layout usa flex column para asegurar que el footer quede al final de la pantalla
+        cuando el contenido es corto y que el main expanda si hay más contenido.
+      - Ajusta `padding-top` para compensar la navbar fija. Mover estilos a CSS global es
+        recomendable en la siguiente iteración.
+    */
+    /* Layout: make footer stick to bottom and full width */
+    html, body { height: 100%; margin: 0; }
+    body { display: flex; flex-direction: column; min-height: 100vh; padding-top: 72px; font-family: Arial, sans-serif; }
+    main { flex: 1 0 auto; width: 100%; box-sizing: border-box; }
+    footer { flex-shrink: 0; width: 100%; background:#22223b; color:#fff; text-align:center; padding:1rem 0; }
+    .ct-container { max-width:1100px; margin:0 auto; padding:0 1rem; display:flex; justify-content:center; align-items:center; }
+    footer .ct-container { justify-content:center; }
+  </style>
+  {% block head %}{% endblock %}
+</head>
+<body>
+  {% include 'cusca/base_navbar.html' %}
+
+  <!-- Contenedor principal: las plantillas hijas llenan el bloque `content`. -->
+  <main class="ct-container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer: centrado y al ancho completo. -->
+  <footer>
+    <div class="ct-container">&copy; 2025 Cuscatec</div>
+  </footer>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

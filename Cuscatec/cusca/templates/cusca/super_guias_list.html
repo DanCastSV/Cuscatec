@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Guías Subidas - Panel Superusuario</title>
+  <link rel="stylesheet" href="{% static 'css/list.css' %}">
+</head>
+<body>
+  <header>
+    <img src="{% static 'images/logo.png' %}" alt="Logo" style="height:56px;">
+    <h1>Guías subidas</h1>
+    <p><a href="{% url 'super_inicio' %}">Volver al panel</a> | <a href="{% url 'subir_guia' %}">Subir nueva guía</a></p>
+  </header>
+
+  <main>
+    {% if materias %}
+      {% for m in materias %}
+        <details>
+          <summary>{{ m.etiqueta }} ({{ m.guias.count }})</summary>
+          <ul>
+            {% for g in m.guias %}
+              <li>
+                <a href="{% url 'guia_detalle' g.pk %}">{{ g.titulo }}</a>
+                — {{ g.get_grado_display }} — subido: {{ g.created_at|date:"Y-m-d H:i" }}
+              </li>
+            {% endfor %}
+          </ul>
+        </details>
+      {% endfor %}
+    {% else %}
+      <p>No hay guías subidas aún.</p>
+    {% endif %}
+  </main>
+</body>
+</html>

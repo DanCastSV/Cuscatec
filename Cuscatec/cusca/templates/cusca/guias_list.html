@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Guías disponibles</title>
+  <link rel="stylesheet" href="{% static 'css/listauser.css' %}">
+</head>
+<body>
+  <header>
+    <img src="{% static 'images/logo.png' %}" alt="Logo" style="height:56px;">
+    <h1>Guías para: {% if grado %}{{ grado|capfirst }}{% else %}Grado no definido{% endif %}</h1>
+    <p><a href="{% url 'inicio' %}">Volver</a></p>
+  </header>
+
+  <main>
+    {% if materias %}
+      {% for m in materias %}
+        <details>
+          <summary>{{ m.etiqueta }} ({{ m.guias.count }})</summary>
+          <ul>
+            {% for g in m.guias %}
+              <li>
+                <a href="{% url 'guia_detalle_public' g.pk %}">{{ g.titulo }}</a>
+                — {{ g.get_grado_display }} — subido: {{ g.created_at|date:"Y-m-d" }}
+              </li>
+            {% endfor %}
+          </ul>
+        </details>
+      {% endfor %}
+    {% else %}
+      <p>No hay material disponible por el momento para tu grado.</p>
+    {% endif %}
+  </main>
+</body>
+</html>

@@ -1,18 +1,45 @@
-{% extends 'cusca/base.html' %}
-
-{% block title %}Inicio - Cuscatec{% endblock %}
-
+{% extends "base.html" %}
+{% load static %}
 {% block content %}
-  <!--
-    inicio.html
-    - Contenido reducido: esta plantilla ahora extiende `cusca/base.html`.
-    - La sección central es sencilla y está centrada (text-align:center).
-    - El saludo del usuario se mantiene con el comentario original "No lo toques".
-  -->
-  <section style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;">
-    {% if user.is_authenticated %}
-      <div class="bienvenido">¡Bienvenido, {{ user.username }}!</div> <!-- No lo toques-->
-    {% endif %}
-    <p>Esta es la página de inicio de tu sitio web Cuscatec.</p>
-  </section>
+<link rel="stylesheet" href="{% static 'css/inicio.css' %}">
+
+<div class="inicio-container">
+
+    <h1 class="titulo-inicio">
+        Bienvenido, {{ user.first_name|default:user.username }}
+    </h1>
+    <p class="descripcion-inicio">
+        Accede rápidamente a tus herramientas de aprendizaje.
+    </p>
+
+    <div class="tarjetas">
+
+        <a href="{% url 'chat' %}" class="tarjeta">
+            <h2>💬 Chatbot Inteligente</h2>
+            <p>Habla con tu asistente de estudio con IA.</p>
+        </a>
+
+        <a href="{% url 'listar_guias' %}" class="tarjeta">
+            <h2>📚 Documentos Complementarios</h2>
+            <p>Accede a guías, material de clase y recursos.</p>
+        </a>
+
+        <a href="/foro/" class="tarjeta">
+            <h2>📝 Foro Estudiantil</h2>
+            <p>Participa en discusiones académicas.</p>
+        </a>
+
+        <div class="tarjeta">
+            <h2>📰 Noticias Estudiantiles</h2>
+            <p>Los temas más discutidos aparecerán aquí.</p>
+            <ul class="lista-noticias">
+                <li>Los debates más activos aparecerán pronto.</li>
+                <li>Tendencias y anuncios escolares.</li>
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+
 {% endblock %}

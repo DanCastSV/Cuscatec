@@ -5,13 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/resgister.css' %}">
+
 </head>
 <body>
     <div class="container">
         <h1>Regístrate</h1>
         <form method="post" class="register-form" id="registerForm">
             {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="errorlist">{{ form.non_field_errors }}</div>
+            {% endif %}
 
             <div class="form-group">
                 <label for="id_username">Nombre completo <span class="required"></span></label>
@@ -45,6 +49,32 @@
                 {% endif %}
             </div>
 
+            <!-- Agregar: select de Grado -->
+            <div class="form-group">
+                <label for="id_grado">Grado <span class="required"></span></label>
+                {{ form.grado }}
+                {% if form.grado.errors %}
+                    <div class="error">{{ form.grado.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Campos específicos de bachillerato (ocultos por defecto) -->
+            <div class="form-group hidden" id="bachFields">
+                <label for="id_bachillerato_tipo">Tipo de Bachillerato</label>
+                {{ form.bachillerato_tipo }}
+                {% if form.bachillerato_tipo.errors %}
+                    <div class="error">{{ form.bachillerato_tipo.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group hidden" id="bachAnioField">
+                <label for="id_bachillerato_anio">Año de Bachillerato</label>
+                {{ form.bachillerato_anio }}
+                {% if form.bachillerato_anio.errors %}
+                    <div class="error">{{ form.bachillerato_anio.errors.0 }}</div>
+                {% endif %}
+            </div>
+
             <div class="form-group">
                 <label for="id_password">Contraseña <span class="required"></span></label>
                 {{ form.password }}
@@ -69,5 +99,46 @@
             <a href="{% url 'login' %}">Inicia sesión aquí</a>
         </p>
     </div>
+
+    <script>
+      const gradoSelect = document.getElementById('id_grado');
+      const bachFields = document.getElementById('bachFields');
+      const bachAnioField = document.getElementById('bachAnioField');
+      const tipoSelect = document.getElementById('id_bachillerato_tipo');
+      const anioSelect = document.getElementById('id_bachillerato_anio');
+
+      function updateBachFields() {
+        if (!gradoSelect) return;
+        if (gradoSelect.value === 'bachillerato') {
+          bachFields.classList.remove('hidden');
+          bachAnioField.classList.remove('hidden');
+        } else {
+          bachFields.classList.add('hidden');
+          bachAnioField.classList.add('hidden');
+          if (tipoSelect) tipoSelect.value = '';
+          if (anioSelect) anioSelect.value = '';
+        }
+        updateAnioOptions();
+      }
+
+      function updateAnioOptions() {
+        if (!anioSelect || !tipoSelect) return;
+        const tipo = tipoSelect.value;
+        // Si es general: no permitir '3'
+        for (let i=0;i<anioSelect.options.length;i++){
+          const opt = anioSelect.options[i];
+          if (opt.value === '3') {
+            opt.disabled = (tipo !== 'tecnico');
+            if (opt.disabled && anioSelect.value === '3') anioSelect.value = '';
+          }
+        }
+      }
+
+      if (gradoSelect) gradoSelect.addEventListener('change', updateBachFields);
+      if (tipoSelect) tipoSelect.addEventListener('change', updateAnioOptions);
+
+      // inicializar al cargar (mantiene estado si form se re-renderiza con errores)
+      document.addEventListener('DOMContentLoaded', updateBachFields);
+    </script>
 </body>
 </html>
