@@ -1,4 +1,6 @@
-from django import forms    
+from django import forms
+from django.core.exceptions import ValidationError
+import os
 
 GRADO_CHOICES = [
     ('kinder', 'Kínder'),
@@ -15,15 +17,34 @@ GRADO_CHOICES = [
     ('bachillerato', 'Bachillerato'),
 ]
 
+MATERIA_CHOICES = [
+    ('matematicas', 'Matemáticas'),
+    ('lengua_literatura', 'Lengua y Literatura'),
+    ('ciencias_sociales', 'Ciencias Sociales'),
+    ('ingles', 'Inglés (Lengua Extranjera)'),
+    ('educacion_fisica', 'Educación Física'),
+    ('moral_urbanidad_civica', 'Moral, Urbanidad y Cívica / Ética y Ciudadana'),
+    ('educacion_tecnologica', 'Educación Tecnológica / Informática'),
+    ('historia', 'Historia'),
+    ('orientacion_para_la_vida', 'Orientación para la Vida'),
+    ('biologia', 'Biología'),
+    ('fisica', 'Física'),
+    ('quimica', 'Química'),
+    ('filosofia', 'Filosofía'),
+    ('gestion_empresarial', 'Gestión Empresarial'),
+    ('servicio_social', 'Servicio Social'),
+    ('teoria_del_conocimiento', 'Teoría del Conocimiento'),
+]
+
 BACH_TYPE_CHOICES = [
     ('general', 'General'),
     ('tecnico', 'Técnico Vocacional'),
 ]
 
 BACH_ANIO_CHOICES = [
-    ('1', 'Primer año'),
-    ('2', 'Segundo año'),
-    ('3', 'Tercer año (solo Técnico)'),
+    ('1', '1° año'),
+    ('2', '2° año'),
+    ('3', '3° año'),
 ]
 
 class RegistroForm(forms.Form):
@@ -126,3 +147,36 @@ class RegistroForm(forms.Form):
             cleaned_data['bachillerato_anio'] = ''
 
         return cleaned_data
+
+class GuiaForm(forms.Form):
+    titulo = forms.CharField(
+        label="Título",
+        max_length=255,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    grado = forms.ChoiceField(
+        label="Grado",
+        choices=GRADO_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+    materia = forms.ChoiceField(
+        label="Materia",
+        choices=MATERIA_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+    archivo = forms.FileField(
+        label="Archivo (PDF)",
+        widget=forms.ClearableFileInput(attrs={'class': 'form-control-file'})
+    )
+
+    def clean_archivo(self):
+        f = self.cleaned_data.get('archivo')
+        if not f:
+            raise ValidationError("Debes subir un archivo PDF.")
+        name = f.name.lower()
+        if not name.endswith('.pdf'):
+            raise ValidationError("El archivo debe ser un PDF.")
+        max_mb = 10
+        if f.size > max_mb * 1024 * 1024:
+            raise ValidationError(f"El archivo no puede exceder {max_mb} MB.")
+        return f

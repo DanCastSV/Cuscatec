@@ -1,0 +1,55 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>{{ guia.titulo }} - Vista previa</title>
+  <link rel="stylesheet" href="{% static 'css/detallepdf.css' %}">
+</head>
+
+<body>
+
+<header>
+  <img src="{% static 'images/logo.png' %}" alt="Logo">
+  <h1>{{ guia.titulo }}</h1>
+
+  <p>
+    {{ guia.get_grado_display }} —
+    {{ guia.get_materia_display }} —
+    subido por: {{ guia.uploaded_by }}
+  </p>
+
+  <p>
+    {% if request.user.is_authenticated and request.user.is_superuser %}
+      <a href="{% url 'listar_guias_super' %}">Volver a la lista</a>
+    {% else %}
+      <a href="{% url 'listar_guias' %}">Volver a la lista</a>
+    {% endif %}
+  </p>
+</header>
+
+<main class="pdf-wrap">
+
+  {% if guia.archivo %}
+      <iframe src="{{ guia.archivo.url }}" width="100%" height="800px" style="border:none;"></iframe>
+  {% else %}
+      <p style="color:red; font-size:20px;">
+          ⚠ Esta guía no tiene archivo PDF adjunto.
+      </p>
+  {% endif %}
+
+  <div class="actions">
+    {% if can_delete %}
+      <form method="post" action="{% url 'guia_eliminar' guia.pk %}"
+            onsubmit="return confirm('¿Eliminar esta guía? Esta acción no se puede deshacer.');">
+        {% csrf_token %}
+        <button type="submit" class="btn-delete">Eliminar guía</button>
+      </form>
+    {% endif %}
+  </div>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+/* ================================
+   ESTILO GENERAL CUSCATEC
+================================ */
+body {
+    background: #f3f6ff;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #1f2d55;
+}
+
+/* ================================
+   HEADER
+================================ */
+header {
+    text-align: center;
+    padding: 1.8rem 1rem;
+    background: #ffffff;
+    border-bottom: 3px solid #1c22d2;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    color: #1c22d2;
+    margin-top: 0.8rem;
+    font-size: 2rem;
+}
+
+header p a {
+    color: #1c22d2;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0 0.5rem;
+}
+
+header p a:hover {
+    color: #0f149d;
+    text-decoration: underline;
+}
+
+/* ================================
+   CONTENIDO PRINCIPAL
+================================ */
+main {
+    max-width: 850px;
+    margin: 2.5rem auto;
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+}
+
+/* ================================
+   DETALLES / SUMMARY (ACORDEÓN)
+================================ */
+details {
+    margin-bottom: 1.3rem;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f8faff;
+    border: 1px solid #cdd3ff;
+    transition: 0.3s ease;
+}
+
+details[open] {
+    box-shadow: 0 4px 14px rgba(28, 34, 210, 0.18);
+}
+
+/* Summary (título de materia) */
+summary {
+    padding: 1rem 1.2rem;
+    background: #1c22d2;
+    color: white;
+    cursor: pointer;
+    font-size: 1.15rem;
+    font-weight: bold;
+    outline: none;
+    list-style: none;
+}
+
+/* Cambiar flecha del <summary> */
+summary::marker {
+    display: none;
+}
+
+summary::after {
+    content: "▼";
+    float: right;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+details[open] summary::after {
+    transform: rotate(180deg);
+}
+
+/* ================================
+   LISTA DE GUÍAS
+================================ */
+ul {
+    list-style: none;
+    padding: 1rem 1.2rem;
+    margin: 0;
+    background: #ffffff;
+}
+
+ul li {
+    margin-bottom: 0.7rem;
+    padding: 0.6rem 0.4rem;
+    border-bottom: 1px solid #e0e4ff;
+}
+
+ul li:last-child {
+    border-bottom: none;
+}
+
+/* enlaces de guías */
+ul li a {
+    color: #1c22d2;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+ul li a:hover {
+    color: #0f149d;
+    text-decoration: underline;
+}
+
+/* ================================
+   VACÍO
+================================ */
+main p {
+    text-align: center;
+    color: #333;
+    font-size: 1.1rem;
+}

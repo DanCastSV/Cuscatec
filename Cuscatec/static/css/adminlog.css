@@ -1,0 +1,110 @@
+/* --- Reset general --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* --- Fondo sobrio de administrador --- */
+body {
+    background: #eceff4;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- Contenedor del login admin --- */
+.admin-container {
+    background: #ffffff;
+    padding: 40px 45px;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 10px;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.15);
+    border-top: 5px solid #0b3d91;
+}
+
+/* --- Título --- */
+.admin-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #0b3d91;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+/* --- Mensajes --- */
+.admin-messages ul {
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+.admin-messages li {
+    background: rgba(235, 87, 87, 0.15);
+    color: #c0392b;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 6px;
+    border-left: 4px solid #c0392b;
+    margin-bottom: 8px;
+}
+
+/* --- Grupos de campos --- */
+.admin-container form div {
+    margin-bottom: 18px;
+}
+
+label {
+    font-weight: 600;
+    font-size: 15px;
+    color: #333;
+    margin-bottom: 6px;
+    display: block;
+}
+
+/* --- Inputs estilo corporativo --- */
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #cdd4e0;
+    border-radius: 6px;
+    background: #f8f9fb;
+    transition: all 0.25s ease;
+    font-size: 15px;
+}
+
+input:focus {
+    border-color: #0f52ba;
+    background: #ffffff;
+    box-shadow: 0 0 6px rgba(15, 82, 186, 0.3);
+    outline: none;
+}
+
+/* --- Botón admin --- */
+button {
+    width: 100%;
+    padding: 12px;
+    background: #0b3d91;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.25s;
+}
+
+button:hover {
+    background: #093377;
+}
+
+/* --- Responsive --- */
+@media (max-width: 480px) {
+    .admin-container {
+        padding: 30px;
+        margin: 20px;
+    }
+}

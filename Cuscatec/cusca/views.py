@@ -1,13 +1,13 @@
-from django.shortcuts import render, redirect
-from django.http import HttpRequest, HttpResponse
-from .forms import RegistroForm
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpRequest, HttpResponse, HttpResponseForbidden
+from .forms import RegistroForm, GuiaForm
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .models import PerfilUsuario
+from .models import PerfilUsuario, Guia
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.db import IntegrityError
-from django.contrib.auth.decorators import login_required  # agregado
-
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.urls import reverse  # agregado (opcional si quieres redirect a admin)
 
 def index(request):
     return render(request, "cusca/index.html")  # ruta dentro de templates/cusca
@@ -87,3 +87,135 @@ def inicio(request):
 @login_required(login_url='login')
 def chat(request):
     return render(request, "cusca/chat.html")
+
+def super_login(request):
+    """
+    Inicio de sesión para superusuarios usando username (no email).
+    """
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            if user.is_superuser:
+                auth_login(request, user)
+                return redirect('super_inicio')
+            else:
+                messages.error(request, "Acceso denegado: usuario no es superusuario.")
+        else:
+            messages.error(request, "Nombre de usuario o contraseña incorrectos.")
+    return render(request, "cusca/super_login.html")
+
+# Nueva vista: panel/landing exclusivo para superusuarios
+@login_required(login_url='super_login')
+@user_passes_test(lambda u: u.is_superuser, login_url='super_login')
+def super_inicio(request):
+    return render(request, "cusca/super_inicio.html")
+
+@login_required(login_url='super_login')
+@user_passes_test(lambda u: u.is_superuser, login_url='super_login')
+def subir_guia(request):
+    """
+    Vista para que superusuarios suban una guía (PDF) con título, grado y materia.
+    """
+    if request.method == 'POST':
+        form = GuiaForm(request.POST, request.FILES)
+        if form.is_valid():
+            Guia.objects.create(
+                titulo=form.cleaned_data['titulo'],
+                grado=form.cleaned_data['grado'],
+                materia=form.cleaned_data['materia'],
+                archivo=form.cleaned_data['archivo'],
+                uploaded_by=request.user
+            )
+            messages.success(request, "Guía subida correctamente.")
+            return redirect('super_inicio')
+    else:
+        form = GuiaForm()
+    return render(request, "cusca/super_subir_guia.html", {"form": form})
+
+@login_required(login_url='super_login')
+@user_passes_test(lambda u: u.is_superuser, login_url='super_login')
+def listar_guias_super(request):
+    """
+    Lista las guías agrupadas por materia. Muestra solo materias que tengan guías.
+    """
+    # obtener choices actuales del campo materia para etiquetas legibles
+    materia_choices = dict(Guia._meta.get_field('materia').choices)
+    # construir lista de (codigo, etiqueta, queryset)
+    materias = []
+    for codigo, etiqueta in materia_choices.items():
+        qs = Guia.objects.filter(materia=codigo).order_by('-created_at')
+        if qs.exists():
+            materias.append({'codigo': codigo, 'etiqueta': etiqueta, 'guias': qs})
+    return render(request, "cusca/super_guias_list.html", {"materias": materias})
+
+
+@login_required(login_url='super_login')
+@user_passes_test(lambda u: u.is_superuser, login_url='super_login')
+def guia_detalle(request, pk):
+    """
+    Vista para superusuarios: ver + eliminar (can_delete=True).
+    """
+    guia = get_object_or_404(Guia, pk=pk)
+    return render(request, "cusca/guia_detalle.html", {"guia": guia, "can_delete": True})
+
+
+@login_required(login_url='login')
+def guia_detalle_public(request, pk):
+    """
+    Vista para usuarios normales: solo ver si el grado del usuario coincide con la guía.
+    """
+    guia = get_object_or_404(Guia, pk=pk)
+
+    try:
+        perfil = PerfilUsuario.objects.get(user=request.user)
+        user_grado = perfil.grado
+    except PerfilUsuario.DoesNotExist:
+        user_grado = None
+
+    if user_grado != guia.grado:
+        messages.error(request, "No hay material disponible para tu grado.")
+        return redirect('listar_guias')
+
+    return render(request, "cusca/guia_detalle.html", {"guia": guia, "can_delete": False})
+
+@login_required(login_url='super_login')
+@user_passes_test(lambda u: u.is_superuser, login_url='super_login')
+def guia_eliminar(request, pk):
+    """
+    Elimina una guía (solo vía POST). Redirige a la lista con mensaje.
+    """
+    guia = get_object_or_404(Guia, pk=pk)
+
+    if request.method != 'POST':
+        return HttpResponseForbidden("Operación no permitida.")
+
+    titulo = str(guia.titulo)
+    guia.archivo.delete(save=False)  # borra archivo del storage
+    guia.delete()
+    messages.success(request, f"Guía «{titulo}» eliminada correctamente.")
+    return redirect('listar_guias_super')
+
+@login_required(login_url='login')
+def listar_guias(request):
+    """
+    Lista para usuarios: muestra guías del grado del usuario agrupadas por materia.
+    Si no hay guías muestra mensaje de 'no hay material disponible'.
+    """
+    try:
+        perfil = PerfilUsuario.objects.get(user=request.user)
+        grado = perfil.grado
+    except PerfilUsuario.DoesNotExist:
+        grado = None
+
+    materia_choices = dict(Guia._meta.get_field('materia').choices)
+    materias = []
+
+    if grado:
+        for codigo, etiqueta in materia_choices.items():
+            qs = Guia.objects.filter(materia=codigo, grado=grado).order_by('-created_at')
+            if qs.exists():
+                materias.append({'codigo': codigo, 'etiqueta': etiqueta, 'guias': qs})
+
+    return render(request, "cusca/guias_list.html", {"materias": materias, "grado": grado})

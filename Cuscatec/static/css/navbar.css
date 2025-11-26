@@ -1,0 +1,132 @@
+/* NAVBAR */
+.ct-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #1f6e5c;
+    color: #fff;
+    z-index: 1000;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+}
+
+/* INTERNAL CONTAINER */
+.ct-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0.85rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+/* BRAND */
+.brand-link {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    color: inherit;
+    text-decoration: none;
+}
+
+.brand-logo {
+    height: 40px;
+    width: auto;
+}
+
+.brand-name {
+    font-weight: 700;
+    font-size: 1.15rem;
+}
+
+/* CHAT BUTTON */
+.chat-btn {
+    background: #ffffff22;
+    padding: 0.55rem 1rem;
+    border-radius: 8px;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.25);
+}
+
+.chat-btn:hover {
+    background: #ffffff33;
+}
+
+/* USER AREA */
+.user-area {
+    position: relative;
+}
+
+.user-btn {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 0.55rem 0.85rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+/* DROPDOWN MENU */
+.user-menu {
+    position: absolute;
+    right: 0;
+    margin-top: 0.6rem;
+    background: #fff;
+    color: #111;
+    min-width: 170px;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(15,23,42,0.12);
+    overflow: hidden;
+    display: none;
+}
+
+.user-menu.show {
+    display: block;
+}
+
+.user-menu a,
+.user-menu .menu-item {
+    display: block;
+    padding: .6rem .9rem;
+    text-decoration: none;
+    color: inherit;
+    border: none;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    cursor: pointer;
+    font-size: .95rem;
+}
+
+.user-menu a:hover,
+.user-menu .menu-item:hover {
+    background: #f3f4f6;
+}
+
+/* SEPARATOR */
+.separator {
+    height: 1px;
+    background: #e6e6e6;
+    margin: .35rem 0;
+}
+
+/* MOBILE */
+@media (max-width: 560px) {
+    .brand-name {
+        display: none;
+    }
+    .ct-container {
+        padding: .5rem .75rem;
+    }
+    .user-btn {
+        padding: .4rem .5rem;
+        font-size: .9rem;
+    }
+}
