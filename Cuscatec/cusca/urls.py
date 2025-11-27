@@ -17,5 +17,13 @@ urlpatterns = [
         path('super/guias/<int:pk>/eliminar/', views.guia_eliminar, name='guia_eliminar'),
         path('guias/', views.listar_guias, name='listar_guias'),
         path('guias/<int:pk>/', views.guia_detalle_public, name='guia_detalle_public'),
+        # Rutas del foro
+        path('foro/', views.forum_list, name='forum_list'),
+        path('foro/<int:pk>/', views.forum_detail, name='forum_detail'),
+        path('foro/nuevo/', views.forum_create, name='forum_create'),
+        path('foro/<int:pk>/editar/', views.forum_edit, name='forum_edit'),
+        path('foro/<int:pk>/eliminar/', views.forum_delete, name='forum_delete'),
+        # Rutas de noticias
+        path('noticias/', views.noticias_list, name='noticias_list'),
 ]
 

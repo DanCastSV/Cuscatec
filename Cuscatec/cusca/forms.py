@@ -180,3 +180,15 @@ class GuiaForm(forms.Form):
         if f.size > max_mb * 1024 * 1024:
             raise ValidationError(f"El archivo no puede exceder {max_mb} MB.")
         return f
+# Formulario para crear posts en el foro (ModelForm)
+from .models import ForumPost
+
+
+class ForumPostForm(forms.ModelForm):
+    class Meta:
+        model = ForumPost
+        fields = ['title', 'body']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Título del post'}),
+            'body': forms.Textarea(attrs={'class': 'form-control', 'rows': 6, 'placeholder': 'Escribe tu mensaje aquí...'}),
+        }

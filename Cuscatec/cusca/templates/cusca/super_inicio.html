@@ -1,53 +1,45 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="utf-8">
-  <title>Panel Superusuario - Cuscatec</title>
-  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
-</head>
 
-<body>
+{% block title %}Panel Superusuario - Cuscatec{% endblock %}
 
-  <!-- HEADER -->
-  <header>
-    <img src="{% static 'images/logo.png' %}" alt="Logo">
-    <h1>Panel de Administrador</h1>
-  </header>
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
 
-  <!-- MAIN -->
-  <main>
+{% block content %}
 
-    <p>Bienvenido, {{ request.user.username }}. Esta es la pantalla principal para superusuarios.</p>
-
-    <ul>
-      <li><a href="{% url 'admin:index' %}">Ir al Admin</a></li>
-      <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
-    </ul>
-
-    <!-- Título principal -->
-    <h2 class="dashboard-title">Panel de Administración</h2>
-
-    <!-- TARJETAS -->
-    <div class="card-container">
-
-        <!-- Tarjeta 1 -->
-        <div class="card">
-            <h3>Agregar Contenido</h3>
-            <p>Sube nuevo material, documentos, imágenes o información al sistema.</p>
-            <a href="{% url 'subir_guia' %}">Ir a agregar</a>
-        </div>
-
-        <!-- Tarjeta 2 -->
-        <div class="card">
-            <h3>Ver Contenido</h3>
-            <p>Consulta, administra y revisa el contenido que ya fue publicado.</p>
-            <a href="{% url 'listar_guias_super' %}">Ver contenido</a>
-        </div>
-
+  <div class="admin-grid">
+    <div class="admin-hero">
+      <h1 class="admin-title">Panel de<br>Administración</h1>
+      <p class="admin-sub">Bienvenido, {{ request.user.username }}. Esta es la pantalla principal para superusuarios.</p>
     </div>
 
-  </main>
+    <div class="admin-cards">
+      <div class="card">
+          <h3>Agregar Contenido</h3>
+          <p>Sube nuevo material, documentos, imágenes o información al sistema.</p>
+          <a href="{% url 'subir_guia' %}">Ir a agregar</a>
+      </div>
 
-</body>
-</html>
+      <div class="card">
+          <h3>Ver Contenido</h3>
+          <p>Consulta, administra y revisa el contenido que ya fue publicado.</p>
+          <a href="{% url 'listar_guias_super' %}">Ver contenido</a>
+      </div>
+
+      <div class="card">
+          <h3>📰 Agregar Noticias</h3>
+          <p>Publica nuevas noticias y anuncios para los estudiantes.</p>
+          <a href="{% url 'admin:cusca_studentnews_add' %}">Agregar Noticia</a>
+      </div>
+
+      <div class="card">
+          <h3>📰 Ver Noticias</h3>
+          <p>Administra, edita o elimina las noticias publicadas.</p>
+          <a href="{% url 'admin:cusca_studentnews_changelist' %}">Ver Noticias</a>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

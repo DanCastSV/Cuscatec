@@ -1,0 +1,124 @@
+{% extends 'cusca/base.html' %}
+{% load static %}
+
+{% block title %}Foro Estudiantil{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <!-- Encabezado con botón de crear post -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2>Foro Estudiantil</h2>
+        <a href="{% url 'forum_create' %}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Nuevo Post
+        </a>
+    </div>
+
+    {% if page_obj %}
+        <!-- Lista de posts -->
+        <div class="forum-posts" style="max-width: 900px; margin: 0 auto;">
+            {% for post in page_obj %}
+            <div class="forum-post-card" style="
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+                background: #fff;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                transition: box-shadow 0.3s ease;
+            ">
+                <!-- Encabezado del post -->
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                    <div>
+                        <h4 style="margin: 0 0 0.5rem 0;">
+                            <a href="{% url 'forum_detail' post.pk %}" style="color: #2c3e50; text-decoration: none;">
+                                {{ post.title }}
+                            </a>
+                        </h4>
+                        <div style="font-size: 0.9rem; color: #7f8c8d;">
+                            <strong>{{ post.author.get_full_name|default:post.author.username }}</strong>
+                            — {{ post.created_at|date:"d/m/Y H:i" }}
+                        </div>
+                    </div>
+                    <!-- Opciones de edición/eliminación -->
+                    {% if user == post.author or user.is_superuser %}
+                    <div style="display: flex; gap: 0.5rem;">
+                        <a href="{% url 'forum_edit' post.pk %}" class="btn btn-sm btn-outline-primary">Editar</a>
+                        <a href="{% url 'forum_delete' post.pk %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Cuerpo del post (truncado) -->
+                <p style="color: #34495e; line-height: 1.6; margin-bottom: 1rem;">
+                    {{ post.body|truncatewords:50 }}
+                </p>
+
+                <!-- Footer del post -->
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; color: #95a5a6;">
+                    <span>
+                        <i class="fas fa-eye"></i> {{ post.views }} vistas
+                    </span>
+                    <a href="{% url 'forum_detail' post.pk %}" style="color: #3498db; text-decoration: none;">
+                        Ver detalles →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Paginación -->
+        {% if page_obj.has_other_pages %}
+        <nav aria-label="Page navigation" style="margin-top: 2rem;">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">Primera</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                    {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Última</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+
+    {% else %}
+    <!-- Sin posts -->
+    <div style="text-align: center; padding: 3rem; background: #ecf0f1; border-radius: 8px;">
+        <h5 style="color: #7f8c8d;">No hay posts en el foro aún</h5>
+        <p style="color: #95a5a6;">Sé el primero en crear un post</p>
+        <a href="{% url 'forum_create' %}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Crear Post
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Estilos adicionales para mejorar hover -->
+<style>
+    .forum-post-card:hover {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+</style>
+{% endblock %}

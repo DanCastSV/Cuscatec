@@ -1,0 +1,139 @@
+{% extends 'cusca/base.html' %}
+{% load static %}
+
+{% block title %}Noticias Estudiantiles{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <!-- Encabezado -->
+    <div style="margin-bottom: 2rem;">
+        <h2 style="margin-bottom: 0.5rem;">📰 Noticias Estudiantiles</h2>
+        <p style="color: #7f8c8d;">Mantente informado sobre eventos y noticias de tu institución</p>
+    </div>
+
+    {% if page_obj.object_list %}
+        <!-- Lista de noticias -->
+        <div class="noticias-container" style="max-width: 900px; margin: 0 auto;">
+            {% for noticia in page_obj %}
+            <div class="noticia-card" style="
+                background: #fff;
+                border: 1px solid #ecf0f1;
+                border-radius: 8px;
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+                transition: all 0.3s ease;
+                border-left: 5px solid #3498db;
+            ">
+                <!-- Encabezado de la noticia -->
+                <div style="margin-bottom: 1rem;">
+                    <h3 style="margin: 0 0 0.5rem 0; color: #2c3e50;">{{ noticia.title }}</h3>
+                    <div style="font-size: 0.85rem; color: #95a5a6;">
+                        📅 {{ noticia.created_at|date:"d/m/Y H:i" }}
+                        {% if noticia.author %}
+                        | 👤 {{ noticia.author.get_full_name|default:noticia.author.username }}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Contenido de la noticia -->
+                <div style="
+                    color: #34495e;
+                    line-height: 1.7;
+                    margin: 1rem 0;
+                    white-space: pre-wrap;
+                    word-wrap: break-word;
+                ">
+                    {% if noticia.content|length > 300 %}
+                        {{ noticia.content|truncatewords:50 }}
+                        <br><br>
+                        <a href="#" style="color: #3498db; text-decoration: none; font-weight: 500;">
+                            Leer más →
+                        </a>
+                    {% else %}
+                        {{ noticia.content }}
+                    {% endif %}
+                </div>
+
+                <!-- Línea divisora -->
+                <div style="
+                    border-bottom: 1px solid #ecf0f1;
+                    margin: 1rem 0;
+                "></div>
+
+                <!-- Footer -->
+                <div style="
+                    font-size: 0.9rem;
+                    color: #95a5a6;
+                ">
+                    <i class="fas fa-check-circle" style="color: #27ae60;"></i>
+                    Noticia activa
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Paginación -->
+        {% if page_obj.has_other_pages %}
+        <nav aria-label="Page navigation" style="margin-top: 2rem;">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">Primera</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                    {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Última</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+
+    {% else %}
+    <!-- Sin noticias -->
+    <div style="
+        text-align: center;
+        padding: 3rem;
+        background: linear-gradient(135deg, #ecf0f1 0%, #bdc3c7 100%);
+        border-radius: 8px;
+    ">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+        <h5 style="color: #34495e; margin-bottom: 0.5rem;">No hay noticias en este momento</h5>
+        <p style="color: #7f8c8d;">Vuelve pronto para conocer las últimas novedades</p>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Estilos adicionales para efectos hover -->
+<style>
+    .noticia-card:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        transform: translateY(-2px);
+    }
+
+    .noticia-card:hover .noticia-title {
+        color: #3498db;
+    }
+</style>
+{% endblock %}
