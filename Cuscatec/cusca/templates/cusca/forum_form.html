@@ -10,10 +10,10 @@
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5 mb-5">
-    <div style="max-width: 700px; margin: 0 auto;">
+<div class="container mt-5 mb-5" style="max-width: 1200px; margin: 0 auto;">
+    <div style="max-width: 1000px; margin: 0 auto;">
         <!-- Encabezado -->
-        <div style="margin-bottom: 2rem;">
+        <div class="text-center mb-4">
             {% if action == 'crear' %}
                 <h2>Crear nuevo post</h2>
                 <p style="color: #7f8c8d;">Comparte tus preguntas o conocimientos con la comunidad estudiantil</p>
@@ -27,7 +27,9 @@
         <form method="post" style="
             background: #f8f9fa;
             padding: 2rem;
-            border-radius: 8px;
+            border-radius: 10px;
+            max-width: 1000px;
+            margin: 0 auto;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         ">
             {% csrf_token %}
@@ -62,12 +64,13 @@
             </div>
 
             <!-- Botones de acción -->
-            <div style="display: flex; gap: 1rem; justify-content: space-between; margin-top: 2rem;">
+            <div class="d-flex justify-content-between mt-4">
                 <a href="{% url 'forum_list' %}" class="btn btn-outline-secondary">
                     <i class="fas fa-times"></i> Cancelar
                 </a>
+
                 <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save"></i> 
+                    <i class="fas fa-save"></i>
                     {% if action == 'crear' %}
                         Crear Post
                     {% else %}
@@ -80,11 +83,14 @@
         <!-- Información adicional -->
         <div style="
             margin-top: 2rem;
-            padding: 1rem;
+            padding: 1rem 1.5rem;
             background: #e3f2fd;
             border-left: 4px solid #2196f3;
-            border-radius: 4px;
+            border-radius: 6px;
             color: #1565c0;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
         ">
             <strong>💡 Tip:</strong> Usa títulos claros y descriptivos para que otros estudiantes encuentren tu post fácilmente.
         </div>
@@ -94,9 +100,10 @@
 <!-- Estilos para los inputs del formulario -->
 <style>
     .form-control, .form-select {
-        border-radius: 4px;
+        border-radius: 6px;
         border: 1px solid #ddd;
-        padding: 0.5rem 0.75rem;
+        padding: 0.55rem 0.75rem;
+        font-size: 1rem;
     }
 
     .form-control:focus, .form-select:focus {

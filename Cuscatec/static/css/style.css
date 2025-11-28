@@ -11,9 +11,12 @@ body {
     font-family: Arial, sans-serif;
     background-color: var(--bg);
     color: #1b2a41;
+    display: flex;
+    justify-content: center;
+    padding: 40px 0; /* evita que quede pegado arriba */
 }
 
-/* CONTENEDOR */
+/* CONTENEDOR - CENTRADO */
 .wrap {
     width: 100%;
     max-width: 900px;
@@ -21,6 +24,8 @@ body {
     border-radius: 20px;
     padding: 35px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+
+    margin: 0 auto; /* <-- ESTO LO CENTRA */
 }
 
 /* LOGO */
