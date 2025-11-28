@@ -1,0 +1,80 @@
+{% extends 'cusca/base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }} - Foro{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <!-- Botón de regreso -->
+    <a href="{% url 'forum_list' %}" class="btn btn-outline-secondary mb-3">
+        <i class="fas fa-arrow-left"></i> Volver al Foro
+    </a>
+
+    <!-- Contenedor principal del post -->
+    <div style="max-width: 900px; margin: 0 auto;">
+        <!-- Encabezado -->
+        <div style="
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        ">
+            <h1 style="margin-bottom: 1rem;">{{ post.title }}</h1>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <!-- Información del autor -->
+                <div>
+                    <div style="font-size: 0.95rem; color: #7f8c8d;">
+                        <strong>{{ post.author.get_full_name|default:post.author.username }}</strong>
+                    </div>
+                    <div style="font-size: 0.85rem; color: #95a5a6;">
+                        📅 {{ post.created_at|date:"d/m/Y H:i" }}
+                        {% if post.updated_at != post.created_at %}
+                        | ✏️ Editado: {{ post.updated_at|date:"d/m/Y H:i" }}
+                        {% endif %}
+                    </div>
+                    <div style="font-size: 0.85rem; color: #95a5a6;">
+                        👁️ {{ post.views }} vistas
+                    </div>
+                </div>
+
+                <!-- Opciones de edición/eliminación -->
+                {% if user == post.author or user.is_superuser %}
+                <div style="display: flex; gap: 0.5rem;">
+                    <a href="{% url 'forum_edit' post.pk %}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-edit"></i> Editar
+                    </a>
+                    <a href="{% url 'forum_delete' post.pk %}" class="btn btn-sm btn-danger">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Cuerpo del post -->
+        <div style="
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            line-height: 1.8;
+            color: #2c3e50;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        ">
+            {{ post.body }}
+        </div>
+
+        <!-- Pie de página -->
+        <div style="
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #ecf0f1;
+            text-align: center;
+        ">
+            <a href="{% url 'forum_list' %}" class="btn btn-outline-secondary">
+                Volver al Foro
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

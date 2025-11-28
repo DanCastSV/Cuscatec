@@ -1,6 +1,6 @@
 /* Contenedor general centrado */
 .inicio-container {
-    min-height: calc(100vh - 120px); /* ajusta según el tamaño de tu navbar */
+    min-height: calc(100vh - 160px); /* ajustado para navbar fija de ~150px */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -25,13 +25,22 @@
     max-width: 600px;
 }
 
-/* Grid centrado */
+/* Grid centrado: forzar 2 columnas en pantallas anchas, 1 en móvil */
 .tarjetas {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
     gap: 25px;
     width: 100%;
     max-width: 900px; /* para que no se extienda demasiado */
+    margin: 0 auto; /* centrar el grid */
+}
+
+/* Responsive: en pantallas pequeñas usar 1 columna */
+@media (max-width: 700px) {
+    .tarjetas {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
 }
 
 /* Tarjetas */

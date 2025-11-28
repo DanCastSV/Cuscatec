@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpRequest, HttpResponse, HttpResponseForbidden
-from .forms import RegistroForm, GuiaForm
+from .forms import RegistroForm, GuiaForm, ForumPostForm
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .models import PerfilUsuario, Guia
+from .models import PerfilUsuario, Guia, ForumPost, StudentNews
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import reverse  # agregado (opcional si quieres redirect a admin)
+from django.core.paginator import Paginator
 
 def index(request):
     return render(request, "cusca/index.html")  # ruta dentro de templates/cusca
@@ -219,3 +220,107 @@ def listar_guias(request):
                 materias.append({'codigo': codigo, 'etiqueta': etiqueta, 'guias': qs})
 
     return render(request, "cusca/guias_list.html", {"materias": materias, "grado": grado})
+
+
+# ===== VISTAS DEL FORO ===== 
+
+@login_required(login_url='login')
+def forum_list(request):
+    """
+    Lista de posts del foro con paginación (10 posts por página).
+    Ordena por fecha de creación (más recientes primero).
+    """
+    posts = ForumPost.objects.all().order_by('-created_at')
+    paginator = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'cusca/forum_list.html', {'page_obj': page_obj})
+
+
+@login_required(login_url='login')
+def forum_detail(request, pk):
+    """
+    Detalle de un post del foro.
+    """
+    post = get_object_or_404(ForumPost, pk=pk)
+    # Incrementar contador de vistas (opcional)
+    post.views += 1
+    post.save()
+    return render(request, 'cusca/forum_detail.html', {'post': post})
+
+
+@login_required(login_url='login')
+def forum_create(request):
+    """
+    Crear un nuevo post en el foro.
+    """
+    if request.method == 'POST':
+        form = ForumPostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            messages.success(request, 'Tu post fue creado exitosamente.')
+            return redirect('forum_detail', pk=post.pk)
+    else:
+        form = ForumPostForm()
+    return render(request, 'cusca/forum_form.html', {'form': form, 'action': 'crear'})
+
+
+@login_required(login_url='login')
+def forum_edit(request, pk):
+    """
+    Editar un post del foro (solo el autor o superusuario puede editar).
+    """
+    post = get_object_or_404(ForumPost, pk=pk)
+    
+    # Validar que solo el autor o un superusuario puedan editar
+    if request.user != post.author and not request.user.is_superuser:
+        messages.error(request, 'No tienes permiso para editar este post.')
+        return redirect('forum_detail', pk=post.pk)
+    
+    if request.method == 'POST':
+        form = ForumPostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Tu post fue actualizado exitosamente.')
+            return redirect('forum_detail', pk=post.pk)
+    else:
+        form = ForumPostForm(instance=post)
+    return render(request, 'cusca/forum_form.html', {'form': form, 'action': 'editar', 'post': post})
+
+
+@login_required(login_url='login')
+def forum_delete(request, pk):
+    """
+    Eliminar un post del foro (solo el autor o superusuario puede eliminar).
+    """
+    post = get_object_or_404(ForumPost, pk=pk)
+    
+    # Validar que solo el autor o un superusuario puedan eliminar
+    if request.user != post.author and not request.user.is_superuser:
+        messages.error(request, 'No tienes permiso para eliminar este post.')
+        return redirect('forum_detail', pk=post.pk)
+    
+    if request.method == 'POST':
+        post_title = post.title
+        post.delete()
+        messages.success(request, f'El post "{post_title}" fue eliminado.')
+        return redirect('forum_list')
+    
+    # GET: mostrar confirmación de eliminación
+    return render(request, 'cusca/forum_confirm_delete.html', {'post': post})
+
+
+# ===== VISTA DE NOTICIAS ESTUDIANTILES =====
+
+@login_required(login_url='login')
+def noticias_list(request):
+    """
+    Lista de noticias estudiantiles (solo activas).
+    """
+    noticias = StudentNews.objects.filter(is_active=True).order_by('-created_at')
+    paginator = Paginator(noticias, 5)  # 5 noticias por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'cusca/noticias_list.html', {'page_obj': page_obj})

@@ -85,3 +85,37 @@ class Guia(models.Model):
 
     def __str__(self):
         return f"{self.titulo} ({self.get_grado_display()})"
+
+
+# Foro estudiantil: entradas (posts) simples
+class ForumPost(models.Model):
+    title = models.CharField(max_length=255)
+    body = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    views = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.title} by {self.author or 'anon'}"
+
+
+# Noticias estudiantiles: administradas solo desde panel admin
+class StudentNews(models.Model):
+    title = models.CharField(max_length=255, help_text="Título de la noticia")
+    content = models.TextField(help_text="Contenido de la noticia")
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    is_active = models.BooleanField(default=True, help_text="Marcar para mostrar en la página")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = "Noticia Estudiantil"
+        verbose_name_plural = "Noticias Estudiantiles"
+
+    def __str__(self):
+        return self.title

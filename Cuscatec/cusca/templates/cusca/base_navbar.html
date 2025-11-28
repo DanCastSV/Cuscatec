@@ -11,8 +11,6 @@
       </a>
     </div>
 
-    
-
     <!-- USER MENU -->
     <div class="user-area">
       <button id="user-btn" class="user-btn" aria-haspopup="true" aria-expanded="false">
@@ -23,6 +21,10 @@
       <div id="user-menu" class="user-menu" role="menu" aria-hidden="true">
         <a href="#" role="menuitem">Perfil</a>
         <a href="#" role="menuitem">Configuración</a>
+        {% if user.is_superuser %}
+          <div class="separator" role="separator"></div>
+          <a href="{% url 'admin:index' %}" role="menuitem">🔧 Panel Admin</a>
+        {% endif %}
         <div class="separator" role="separator"></div>
         <button type="button" class="menu-item logout-item" onclick="logout()">Cerrar sesión</button>
       </div>

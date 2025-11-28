@@ -24,19 +24,15 @@
             <p>Accede a guías, material de clase y recursos.</p>
         </a>
 
-        <a href="/foro/" class="tarjeta">
+        <a href="{% url 'forum_list' %}" class="tarjeta">
             <h2>📝 Foro Estudiantil</h2>
             <p>Participa en discusiones académicas.</p>
         </a>
 
-        <div class="tarjeta">
+        <a href="{% url 'noticias_list' %}" class="tarjeta">
             <h2>📰 Noticias Estudiantiles</h2>
             <p>Los temas más discutidos aparecerán aquí.</p>
-            <ul class="lista-noticias">
-                <li>Los debates más activos aparecerán pronto.</li>
-                <li>Tendencias y anuncios escolares.</li>
-            </ul>
-        </div>
+        </a>
 
     </div>
 

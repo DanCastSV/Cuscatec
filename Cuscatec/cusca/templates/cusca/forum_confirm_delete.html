@@ -1,0 +1,60 @@
+{% extends 'cusca/base.html' %}
+{% load static %}
+
+{% block title %}Confirmar eliminación - Foro{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div style="max-width: 600px; margin: 0 auto;">
+        <!-- Alerta de confirmación -->
+        <div style="
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        ">
+            <!-- Icono de advertencia -->
+            <div style="font-size: 3rem; margin-bottom: 1rem; color: #ff9800;">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+
+            <!-- Texto de confirmación -->
+            <h3 style="color: #f57f17; margin-bottom: 0.5rem;">
+                ¿Deseas eliminar este post?
+            </h3>
+
+            <p style="color: #f57f17; margin-bottom: 2rem;">
+                <strong>"{{ post.title }}"</strong>
+            </p>
+
+            <p style="color: #666; margin-bottom: 2rem;">
+                Esta acción es irreversible. El post será eliminado permanentemente.
+            </p>
+
+            <!-- Botones de acción -->
+            <form method="post" style="display: flex; gap: 1rem; justify-content: center;">
+                {% csrf_token %}
+                
+                <!-- Botón de cancelar -->
+                <a href="{% url 'forum_detail' post.pk %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
+
+                <!-- Botón de confirmar eliminación -->
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Sí, eliminar
+                </button>
+            </form>
+        </div>
+
+        <!-- Enlace de ayuda -->
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="{% url 'forum_list' %}" style="color: #3498db; text-decoration: none;">
+                Volver al Foro
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

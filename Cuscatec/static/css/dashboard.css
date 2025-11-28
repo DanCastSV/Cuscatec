@@ -92,10 +92,51 @@ main ul li a:hover {
    CARDS CONTAINER
 ------------------------------ */
 .card-container {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px;
-    flex-wrap: wrap;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* ------------------------------
+   ADMIN GRID (SUPER USUARIO)
+   left: big hero | right: stacked cards
+------------------------------ */
+.admin-grid {
+    max-width: 1100px;
+    margin: 40px auto;
+    display: grid;
+    grid-template-columns: 1fr 520px;
+    gap: 40px;
+    align-items: center;
+}
+.admin-hero {
+    padding: 20px 30px;
+}
+.admin-title {
+    font-size: 52px;
+    line-height: 1.02;
+    color: #0b3d91;
+    margin-bottom: 18px;
+}
+.admin-sub {
+    font-size: 18px;
+    color: #333;
+}
+.admin-cards {
+    display: grid;
+    /* Force two columns with flexible sizing so cards fit comfortably */
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+    gap: 18px;
+    align-items: start;
+    grid-auto-flow: row;
+}
+.admin-cards .card {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    margin: 0;
 }
 
 /* ------------------------------
@@ -103,7 +144,8 @@ main ul li a:hover {
 ------------------------------ */
 .card {
     background: #ffffff;
-    width: 290px;
+    width: 100%;
+    max-width: 300px;
     padding: 25px;
     border-radius: 12px;
     text-align: center;
@@ -118,10 +160,10 @@ main ul li a:hover {
 }
 
 .card h3 {
-    font-size: 20px;
     color: #0b3d91;
     margin-bottom: 12px;
     font-weight: bold;
+    font-size: 22px;
 }
 
 .card p {
@@ -145,12 +187,64 @@ main ul li a:hover {
     background: #0b3d91;
 }
 
+/* Ensure admin-cards use full width inside the grid (override general card max-width) */
+.admin-cards .card {
+    width: 100%;
+    max-width: none;
+}
+
+/* Tarjetas especiales para noticias (en admin-cards) */
+.admin-cards .card:nth-child(3),
+.admin-cards .card:nth-child(4) {
+    border-top-color: #f39c12;
+}
+
+.admin-cards .card:nth-child(3) h3,
+.admin-cards .card:nth-child(4) h3 {
+    color: #f39c12;
+}
+
+.admin-cards .card:nth-child(3) a,
+.admin-cards .card:nth-child(4) a {
+    background: #f39c12;
+}
+
+.admin-cards .card:nth-child(3) a:hover,
+.admin-cards .card:nth-child(4) a:hover {
+    background: #e67e22;
+}
+
+.admin-grid {
+     max-width: 1100px;
+     margin: 40px auto;
+     display: grid;
+     grid-template-columns: 1fr 520px;
+     gap: 40px;
+     align-items: center;
+}
+
 /* ------------------------------
-   RESPONSIVE
+    RESPONSIVE
 ------------------------------ */
+@media (max-width: 1000px) {
+    .admin-grid {
+        grid-template-columns: 1fr;
+        padding: 0 16px;
+    }
+    .admin-cards {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
 @media (max-width: 760px) {
     header {
         flex-direction: column;
         text-align: center;
+    }
+    .admin-cards {
+        grid-template-columns: 1fr;
+    }
+    .admin-title {
+        font-size: 36px;
     }
 }
